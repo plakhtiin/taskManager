@@ -1,0 +1,9 @@
+logs/*
+!.gitkeep
+node_modules/
+tmp
+.DS_Store
+.idea
+/front/node_modules
+/api/node_modules
+/front/dist/
