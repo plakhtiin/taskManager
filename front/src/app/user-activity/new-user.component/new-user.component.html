@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-2 col-sm-2">
+            <h3>
+                <a href="" ui-sref="settings">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </a>
+            </h3>
+        </div>
+        <div class="col-xs-10 col-sm-10">
+            <h3 class="center">
+                Add new user
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 content style-scrollbar" style="top: 80px;">
+            <form #newUser="ngForm" name="newUser">
+                <div class="form-group" ng-class="{'has-error': firstName.invalid && firstName.touched}">
+                    <label>First name</label>
+                    <input type="text" class="form-control" name="firstName" #firstName="ngModel" required [(ngModel)]="userData.firstName" >
+                </div>
+                <div class="form-group" ng-class="{'has-error': lastName.invalid && lastName.touched}">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" #lastName="ngModel" name="lastName" required [(ngModel)]="userData.lastName">
+                </div>
+                <div class="form-group" ng-class="{'has-error': username.invalid && username.touched}">
+                    <label>Username</label>
+                    <input type="text" class="form-control" #username="ngModel" name="username" required [(ngModel)]="userData.username">
+                </div>
+                <div class="form-group" ng-class="{'has-error': email.invalid && email.touched}">
+                    <label>E-mail</label>
+                    <input type="email" class="form-control" #email="ngModel" name="email" required [(ngModel)]="userData.email">
+                </div>
+                <div class="form-group" ng-class="{'has-error': password.invalid && password.touched}">
+                    <label>Password</label>
+                    <input type="password" class="form-control" #password="ngModel" name="password" required [(ngModel)]="userData.password">
+                </div>
+                <div class="form-group"  ng-class="{'has-error': role.touched}">
+                    <label>Role</label>
+                    <select name="role" #role="ngModel" [(ngModel)]="userData.role" class="form-control" required>
+                        <option *ngFor="let item of systemRoles; let key" [value]="key">{{item}} - {{item[key]}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" [disabled]="newUser.invalid" ng-click="vm.createUser()" >Add new user</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
