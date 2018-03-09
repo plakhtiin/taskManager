@@ -3,7 +3,9 @@ logs/*
 node_modules/
 tmp
 .DS_Store
-.idea
+.idea/
 /front/node_modules
 /api/node_modules
 /front/dist/
+/front/package-lock.json
+/api/package-lock.json
