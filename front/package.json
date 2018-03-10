@@ -54,7 +54,7 @@
 		"protractor": "~5.1.2",
 		"ts-node": "2.0.0",
 		"tslint": "5.8.x",
-		"typescript": "2.6.x",
+		"typescript": "2.5.x",
 		"url-loader": "0.5.9",
 		"webpack": "3.8.1",
 		"webpack-dev-server": "2.9.7"

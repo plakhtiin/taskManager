@@ -30,7 +30,6 @@
     "no-bitwise": true,
     "no-console": [
       true,
-      "log",
       "debug",
       "info",
       "time",
@@ -70,7 +69,7 @@
       true,
       "allow-null-check"
     ],
-    "typedef": [true, "call-signature", "parameter", "property-declaration", "variable-declaration"],
+    "typedef": [false, "call-signature", "parameter", "property-declaration", "variable-declaration"],
     "typedef-whitespace": [
       true,
       {
@@ -115,6 +114,6 @@
     "exclude": ["**/*.d.ts", "**/*.spec.ts", "**/node_modules/**/*.ts", "**/src/environments/*"]
   },
   "options": {
-    "typeCheck": false
+    "typeCheck": true
   }
 }
