@@ -1,5 +1,8 @@
-<div class="login-wrapper">
+<div class="login-wrapper" *ngIf="!isLoggined()">
 	<button color="warn" mat-raised-button class="text-capitalize" (click)="onLoginClick()">
-		Login
+		Sign In
+	</button>
+	<button color="accent" mat-raised-button class="text-capitalize" (click)="onRegisterClick()">
+		Sing Up
 	</button>
 </div>

@@ -31,6 +31,10 @@ import {TodoService} from './services/todo.service';
 import {TodoListComponent} from './components/todo-list/todo-list.component';
 import {EditTaskComponent} from './components/edit-task/edit-task.component';
 import {AppLoginComponent} from './components/app-login/app-login.component';
+import {SignUpComponent} from './components/app-login/sign-up/sign-up.component';
+import {SignInComponent} from './components/app-login/sign-in/sign-in.component';
+import {AuthService} from './services/auth.service';
+import {LoginGuardService} from './services/loginGuard.service';
 
 @NgModule({
 	declarations: [
@@ -40,6 +44,8 @@ import {AppLoginComponent} from './components/app-login/app-login.component';
 		EditTaskComponent,
 		FilterPipe,
 		AppLoginComponent,
+		SignUpComponent,
+		SignInComponent
 	],
 	imports: [
 		NoopAnimationsModule,
@@ -86,12 +92,16 @@ import {AppLoginComponent} from './components/app-login/app-login.component';
 		{
 			provide: MATERIAL_SANITY_CHECKS,
 			useValue: false
-		}
+		},
+		AuthService,
+		LoginGuardService
 	],
 	bootstrap: [AppComponent],
 	entryComponents: [
 		CreateTaskComponent,
-		EditTaskComponent
+		EditTaskComponent,
+		SignUpComponent,
+		SignInComponent
 	]
 })
 export class AppModule {
