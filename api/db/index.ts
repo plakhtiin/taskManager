@@ -3,7 +3,7 @@ import * as moment from 'moment';
 
 const DB_URL: string = 'mongodb://admin:root@ds261088.mlab.com:61088/taskmanager';
 
-export class DataBaseConection {
+export class DataBaseConnection {
 	_db: any;
 
 	connectToServer(callback) {

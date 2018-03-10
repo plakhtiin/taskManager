@@ -1,17 +1,15 @@
 import * as express from 'express';
-import {DataBaseConection} from './db';
+import {DataBaseConnection} from './db';
 import {LoginService} from './service/login.service';
 import {ManageUserService} from './service/manage-user.service';
 
 class Token {
-	private dataBaseConection: DataBaseConection = new DataBaseConection();
-	private loginService: LoginService = new LoginService();
-	private manageUserService: ManageUserService = new ManageUserService();
+	private dataBaseConnection: DataBaseConnection = new DataBaseConnection();
 
 	constructor() {}
 
 	setToken(userData, cb) {
-		this.dataBaseConection.setToken(userData.id, userData.token, function (err, res) {
+		this.dataBaseConnection.setToken(userData.id, userData.token, function (err, res) {
 			if (err) {
 				cb(err, null);
 			} else if (res) {
@@ -24,6 +22,8 @@ class Token {
 class App {
 	public express;
 	public tokenClass: Token = new Token();
+	private loginService: LoginService = new LoginService();
+	private manageUserService: ManageUserService = new ManageUserService();
 
 	constructor() {
 		this.express = express();
