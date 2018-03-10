@@ -22,6 +22,7 @@
 		"@angular/platform-browser-dynamic": "5.x.x",
 		"@angular/router": "5.x.x",
 		"@angular/upgrade": "5.x.x",
+		"@angular/material": "5.x.x",
 		"@ng-bootstrap/ng-bootstrap": "1.0.0-beta.8",
 		"bootstrap": "^4.0.0",
 		"core-js": "^2.4.1",
@@ -29,7 +30,9 @@
 		"lodash": "4.17.4",
 		"moment": "2.20.1",
 		"rxjs": "^5.4.2",
-		"zone.js": "^0.8.14"
+		"zone.js": "^0.8.14",
+		"snazzy-info-window": "^1.1.1",
+		"material-design-icons": "^3.0.1"
 	},
 	"devDependencies": {
 		"@angular-devkit/core": "0.0.28",

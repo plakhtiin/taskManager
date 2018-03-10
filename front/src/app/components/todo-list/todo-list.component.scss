@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+
+.content-box {
+	display: flex;
+	flex-direction: column;
+	max-width: 1200px;
+	margin: 18px auto;
+	padding: 0;
+	.flex-row {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		padding: 0 24px;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+		.flex-col {
+			box-sizing: border-box;
+			flex-grow: 1;
+			width: 100%;
+			.col-header {
+				width:100%;
+				height: 100%;
+				text-align: left;
+			}
+			.filter-field {
+				.mat-form-field {
+					width: 98%;
+				}
+			}
+		}
+	}
+}
+

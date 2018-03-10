@@ -1,7 +1,7 @@
-import {DataBaseConection} from '../db';
+import {DataBaseConnection} from '../db';
 
 export class ManageUserService {
-	db: DataBaseConection = new DataBaseConection();
+	db: DataBaseConnection = new DataBaseConnection();
 
 	constructor() {}
 

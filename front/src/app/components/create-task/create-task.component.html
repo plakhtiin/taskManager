@@ -1,0 +1,44 @@
+<form [formGroup]="formCreate" (ngSubmit)="onSubmit(formCreate)">
+	<h1 mat-dialog-title>Add task</h1>
+	<mat-dialog-content>	
+
+		<mat-form-field>
+			<input matInput formControlName="name" placeholder="Title" required>
+			<mat-error>{{errors.name}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field>
+			<textarea matInput formControlName="description" placeholder="Description"></textarea>
+			<mat-error>{{errors.description}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field>
+			<input matInput [matDatepicker]="startPicker" formControlName="startDate" placeholder="Start date" required>
+			<mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+			<mat-datepicker #startPicker></mat-datepicker>
+			<mat-error>{{errors.startDate}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field>
+			<input matInput [matDatepicker]="picker" formControlName="finishDate" placeholder="Finish date" required>
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+			<mat-error>{{errors.finishDate}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field>
+        <mat-select placeholder="Select priority" formControlName="priorityId" required>
+        <mat-option></mat-option>
+        <mat-option *ngFor="let priorityName of PRIORITYS; let i = index" [value]="i+1">
+          {{priorityName}}
+        </mat-option>
+			</mat-select>
+			<mat-error>{{errors.priority}}</mat-error>
+		</mat-form-field>
+
+	</mat-dialog-content>
+	<mat-dialog-actions>
+	  <button mat-button type="submit" color="primary">SAVE</button>
+	  <button mat-button type="button" color="primary" mat-dialog-close>CANCEL</button>
+	</mat-dialog-actions>
+</form>

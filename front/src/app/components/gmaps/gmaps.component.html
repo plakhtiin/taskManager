@@ -1,0 +1,73 @@
+<mat-card class="gmap-wrapper">
+  <mat-card-title>Bermuda Triangle Map</mat-card-title>
+
+    <mat-input-container>
+      <input matInput
+      placeholder="Search for location" 
+      type="text" #search class="form-control"
+      [formControl]="searchControl">
+      <button 
+      mat-icon-button 
+      matSuffix
+      (click)="searchControl.reset()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-input-container>
+
+  <mat-slide-toggle
+  [checked]="showMap"
+  (change)="toggleMap($event)">
+  </mat-slide-toggle>
+
+  <agm-map *ngIf="showMap"
+  [latitude]="latitude" 
+  [longitude]="longitude"
+  [zoom]="zoom">
+
+    <agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
+      <agm-marker 
+      *ngFor="let coord of triangleCoords"
+      [latitude]="coord.lat" 
+      [longitude]="coord.lng"
+      [iconUrl]="'assets/map-marker.png'"
+      [draggable]="coord.draggable">
+
+      <agm-snazzy-info-window 
+      [maxWidth]="infoOptions.maxWidth" 
+      [border]="infoOptions.border"
+      [borderRadius]="infoOptions.borderRadius"
+      [closeOnMapClick]="infoOptions.closeOnMapClick"
+      [closeWhenOthersOpen]="infoOptions.closeWhenOthersOpen"
+      [padding]="infoOptions.padding"
+      [maxHeight]="infoOptions.maxHeight"
+      >
+        <ng-template>
+          <strong>
+            <a href="http://www.google.com/search?q={{ coord.label }}">
+              {{ coord.label }}
+            </a>
+          </strong>
+          <a mat-icon-button color="primary"
+          (click)="toFavorite(coord)"
+          >
+            <mat-icon *ngIf="coord.isFavorite; else not">favorite</mat-icon>
+            <ng-template #not><mat-icon>favorite_border</mat-icon></ng-template>
+          </a>
+          <div class="description">
+            <p>{{ coord.descr }}</p>
+            <img src="{{ coord.imgUrl }}">
+          </div>
+        </ng-template>
+      </agm-snazzy-info-window>
+    </agm-marker>
+
+  </agm-marker-cluster>
+
+  
+
+  <agm-polygon
+  [paths]="triangleCoords"
+  [strokeWeight]="0"></agm-polygon>
+
+  </agm-map>
+</mat-card>

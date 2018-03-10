@@ -1,0 +1,13 @@
+<a mat-fab class="add-task" (click)="openAddPostDialog()">
+  <mat-icon>add</mat-icon>
+</a>
+<mat-card class="content-box" *ngFor="let post of posts">
+  <mat-card-title>{{ post?.title }}</mat-card-title>
+  <mat-card-subtitle>User ID: {{ post?.userId }}</mat-card-subtitle>
+  <mat-card-content>
+    <div>{{ post?.body | slice:0:100 }}...</div>
+    <button mat-button class="more-btn" color="primary" routerLink="/posts/{{ post.id }}">MORE</button>
+    <button mat-button class="edit-btn" color="primary" (click)="openEditPostDialog(post)">EDIT</button>
+    <button mat-button class="delete-btn" color="primary" (click)="deletePost(post)">DELETE</button>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,12 @@
+.content-box {
+    max-width: 900px;
+    margin: 0 auto;
+    .edit-btn {
+        display: none;
+    }
+    .mat-card-title:hover {
+        .edit-btn {
+            display: inline;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.gmap-wrapper {
+   width: 60%;
+   margin: 18px auto;
+    agm-map {
+        width: 100%;
+        height: 450px;
+        .description {
+            vertical-align: top;
+            p {
+                display: inline-block;
+                width: 69%;
+                vertical-align: top;
+                margin: 0;
+            }
+            img {
+                display: inline-block;
+                width: 30%;
+                vertical-align: top;
+            }
+        }
+    }
+}
+a {
+    color: #039be5;
+    text-decoration: none;
+}

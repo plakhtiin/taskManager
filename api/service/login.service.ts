@@ -1,8 +1,8 @@
-import {DataBaseConection} from '../db';
+import {DataBaseConnection} from '../db';
 import * as jsonwebtoken from 'jsonwebtoken';
 
 export class LoginService {
-	db: DataBaseConection = new DataBaseConection();
+	db: DataBaseConnection = new DataBaseConnection();
 
 	constructor() {
 	}

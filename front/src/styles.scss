@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$primary: mat-palette($mat-light-blue, 600, 100, 700);
+$accent:  mat-palette($mat-amber, A200, A100, A400);
+$warn: mat-palette($mat-deep-orange, A200);
+
+$my-theme: mat-light-theme(
+    $primary,
+    $accent,
+    $warn
+);
+
+.my-theme {
+	@include angular-material-theme($my-theme);
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+.add-task, .back {
+	position: absolute;
+	top: -28.5px;
+	left: 20px;
+}
+
+.footer {
+	width: 172px;
+	margin: 8px auto;
+}
