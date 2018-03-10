@@ -9,4 +9,8 @@ tmp
 /front/dist/
 /front/package-lock.json
 /api/package-lock.json
+*/*/*.js
 */*.js
+*/*.js.map
+*/*/*.js.map
+!*/*.conf.js
