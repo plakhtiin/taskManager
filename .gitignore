@@ -9,8 +9,10 @@ tmp
 /front/dist/
 /front/package-lock.json
 /api/package-lock.json
-*/*/*.js
 */*.js
+/api/db/*.js
+/api/service/*.js
+/api/db/*.js.map
+/api/service/*.js.map
 */*.js.map
-*/*/*.js.map
 !*/*.conf.js
