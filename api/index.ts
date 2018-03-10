@@ -1,9 +1,9 @@
-import {DataBaseConection} from './db';
+import {DataBaseConnection} from './db';
 
 import app from './App';
 
 const port = process.env.PORT || 3000;
-const dataBaseConection: DataBaseConection = new DataBaseConection();
+const dataBaseConection: DataBaseConnection = new DataBaseConnection();
 
 app.listen(port, (err) => {
 	if (err) {

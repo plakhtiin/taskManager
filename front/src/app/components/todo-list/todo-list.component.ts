@@ -1,125 +1,117 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatTableDataSource, MatSort } from '@angular/material';
-import { filter } from 'rxjs/operators';
-import { TodoService } from '../../services/todo.service';
-import { Task } from '../../classes/task';
-import { EditTaskComponent } from '../edit-task/edit-task.component';
-import { Priority } from '../../classes/priority';
-import { CreateTaskComponent } from '../create-task/create-task.component';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {filter} from 'rxjs/operators';
+import {TodoService} from '../../services/todo.service';
+import {Task} from '../../classes/task';
+import {EditTaskComponent} from '../edit-task/edit-task.component';
+import {Priority} from '../../classes/priority';
+import {CreateTaskComponent} from '../create-task/create-task.component';
 
 @Component({
-  selector: 'app-todo-list',
-  templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.scss']
+	selector: 'app-todo-list',
+	templateUrl: './todo-list.component.html',
+	styleUrls: ['./todo-list.component.scss']
 })
 export class TodoListComponent implements OnInit {
 
-  form: FormGroup;
-  editTaskDialogRef: MatDialogRef<EditTaskComponent>;
-  createTaskDialogRef: MatDialogRef<CreateTaskComponent>;
+	form: FormGroup;
+	editTaskDialogRef: MatDialogRef<EditTaskComponent>;
+	createTaskDialogRef: MatDialogRef<CreateTaskComponent>;
 
-  PRIORITYS = [
-    'High',
-    'Middle',
-    'Low'
-  ];
+	PRIORITIES = [
+		'High',
+		'Middle',
+		'Low'
+	];
 
-  constructor(
-    private todoService: TodoService,
-    public editDialog: MatDialog,
-    public createDialog: MatDialog
-  ) { }
+	constructor(private todoService: TodoService,
+				public editDialog: MatDialog,
+				public createDialog: MatDialog) {
+	}
 
-  ngOnInit() {
-    this.createForm();
-  }
-  public addTask(values): void {
-  	this.todoService.addTask(values, values.priorityId);
-    this.form.reset();
-  }
-  public updateTask(task: Task): void {
-    task.priority = new Priority(task.priority.id);
-  	this.todoService.updateTaskById(task.id, task);
-  }
-  public deleteTask(task: Task): void {
-    this.todoService.deleteTaskById(task.id);
-  }
+	ngOnInit(): void {
+		this.createForm();
+	}
 
-  public completeTask(task: Task): void {
-    this.todoService.completeTaskById(task.id);
-  }
+	public addTask(values: any): void {
+		this.todoService.addTask(values, values.priorityId);
+		this.form.reset();
+	}
 
-  public sortTasksByName(): void {
-    this.todoService.sortTasksByName();
-  }
+	public updateTask(task: Task): void {
+		task.priority = new Priority(task.priority.id);
+		this.todoService.updateTaskById(task.id, task);
+	}
 
-  public sortTasksByDate(): void {
-    this.todoService.sortTasksByDate();
-  }
+	public deleteTask(task: Task): void {
+		this.todoService.deleteTaskById(task.id);
+	}
 
-  public sortTasksByPriority(): void {
-    this.todoService.sortTasksByPriority();
-  }
+	public completeTask(task: Task): void {
+		this.todoService.completeTaskById(task.id);
+	}
 
-  public sortTasksByCompleted(): void {
-    this.todoService.sortTasksByCompleted();
-  }
+	public sortTasksByName(): void {
+		this.todoService.sortTasksByName();
+	}
 
-  public taskIsOverdue(task: Task): string {
-    if (!task.completed) {
-      let now = new Date;
-      let finish = new Date(task.finishDate);
-      if (finish.valueOf() - now.valueOf() < 0) {
-        return '#FA9A9A';
-      }
-    }
-    return ''
-  }
+	public sortTasksByDate(): void {
+		this.todoService.sortTasksByDate();
+	}
 
-  get tasks(): Array<Task> {
-    return this.todoService.getTasks();
-  }
+	public sortTasksByPriority(): void {
+		this.todoService.sortTasksByPriority();
+	}
 
-  private createForm(): void {
-    this.form = new FormGroup({
-      name: new FormControl(null),
-      date: new FormControl(null),
-      priority: new FormControl(null),
-      completed: new FormControl(null)
-    });
-  }
-  openEditTaskDialog(task): void {
-    this.editTaskDialogRef = this.editDialog.open(EditTaskComponent, {
-      width: '400px',
-      data: {
-        id: task ? task.id : '',
-        name: task ? task.name : '',
-        startDate: task ? task.startDate : '',
-        finishDate: task ? task.finishDate : '',
-        description: task ? task.description : '',
-        priority: task ? task.priority : '',
-        completed: task ? task.completed : '',
-      }
-    })
+	public sortTasksByCompleted(): void {
+		this.todoService.sortTasksByCompleted();
+	}
 
-    this.editTaskDialogRef.afterClosed()
-    .pipe(filter(values => values))
-    .subscribe(values => {
-      this.updateTask(values);
-    })
-  }
-  openCreateTaskDialog(): void {
-    this.createTaskDialogRef = this.createDialog.open(CreateTaskComponent, {
-      width: '400px',
-    })
+	get tasks(): Array<Task> {
+		return this.todoService.getTasks();
+	}
 
-    this.createTaskDialogRef.afterClosed()
-    .pipe(filter(values => values))
-    .subscribe(values => {
-      this.addTask(values);
-    })
-  }
+	private createForm(): void {
+		this.form = new FormGroup({
+			name: new FormControl(null),
+			date: new FormControl(null),
+			priority: new FormControl(null),
+			completed: new FormControl(null)
+		});
+	}
+
+	openEditTaskDialog(task: Task): void {
+		this.editTaskDialogRef = this.editDialog.open(EditTaskComponent, {
+			width: '400px',
+			data: {
+				id: task ? task.id : '',
+				name: task ? task.name : '',
+				startDate: task ? task.startDate : '',
+				finishDate: task ? task.finishDate : '',
+				description: task ? task.description : '',
+				priority: task ? task.priority : '',
+				completed: task ? task.completed : '',
+			}
+		});
+
+		this.editTaskDialogRef.afterClosed()
+			.pipe(filter(values => values))
+			.subscribe(values => {
+				this.updateTask(values);
+			});
+	}
+
+	openCreateTaskDialog(): void {
+		this.createTaskDialogRef = this.createDialog.open(CreateTaskComponent, {
+			width: '400px',
+		});
+
+		this.createTaskDialogRef.afterClosed()
+			.pipe(filter(values => values))
+			.subscribe(values => {
+				this.addTask(values);
+			});
+	}
 
 }

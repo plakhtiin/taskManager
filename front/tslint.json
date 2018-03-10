@@ -30,7 +30,6 @@
     "no-bitwise": true,
     "no-console": [
       true,
-      "log",
       "debug",
       "info",
       "time",
@@ -96,8 +95,6 @@
       "check-type"
     ],
 
-    "directive-selector": [true, "attribute", "lr", "camelCase"],
-    "component-selector": [true, "element", "lr", "kebab-case"],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
