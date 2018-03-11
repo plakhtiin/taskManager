@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
 	selector: 'app-login',
@@ -9,8 +10,11 @@ import {AuthService} from '../../services/auth.service';
 export class AppLoginComponent {
 	public isLoggined: any;
 
-	constructor(public authService: AuthService) {
+	constructor(private router: Router, public authService: AuthService) {
 		this.isLoggined = this.authService.isLoggedIn;
+		if (this.isLoggined()) {
+			this.router.navigate(['/todos']);
+		}
 	}
 
 }

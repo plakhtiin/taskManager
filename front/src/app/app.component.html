@@ -2,6 +2,10 @@
     <span>
         <span>TODO LIST</span>
     </span>
+	<button *ngIf="isLoggined()" color="accent" mat-raised-button class="text-capitalize" (click)="logout()">
+		Logout
+	</button>
 </mat-toolbar>
+
 <router-outlet></router-outlet>
 

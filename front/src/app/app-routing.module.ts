@@ -12,8 +12,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'todos',
-		component: TodoListComponent,
-		canActivate: [LoginGuardService]
+		component: TodoListComponent
 	},
 	{
 		path: 'login',

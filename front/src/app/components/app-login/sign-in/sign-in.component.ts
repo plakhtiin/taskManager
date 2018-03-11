@@ -25,8 +25,8 @@ export class SignInComponent {
 	onSubmit(form: any): void {
 		this.serverService.login(this.formCreate.value.email, this.formCreate.value.password).subscribe((data) => {
 			if (!data.body.error) {
-				localStorage.userData = JSON.stringify(data.userData);
-				localStorage.authToken = data.token;
+				localStorage.userData = JSON.stringify(data.body.userData);
+				localStorage.authToken = data.body.token;
 				this.router.navigate(['/todos']);
 			}
 		});
