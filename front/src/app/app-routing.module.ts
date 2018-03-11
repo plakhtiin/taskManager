@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TodoListComponent} from './components/todo-list/todo-list.component';
 import {LoginGuardService} from './services/loginGuard.service';
+import {AppLoginComponent} from './components/app-login/app-login.component';
 
 const routes: Routes = [
 	{
@@ -13,6 +14,10 @@ const routes: Routes = [
 		path: 'todos',
 		component: TodoListComponent,
 		canActivate: [LoginGuardService]
+	},
+	{
+		path: 'login',
+		component: AppLoginComponent,
 	}
 ];
 

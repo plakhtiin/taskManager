@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CreateTaskComponent} from '../../create-task/create-task.component';
-import {MatDialogRef} from '@angular/material/dialog';
+import {ServerService} from '../../../services/server.service';
+import {MatSnackBar} from '@angular/material';
+const durationSnackBar: number = 1000;
 
 @Component({
 	selector: 'sign-in',
@@ -13,8 +14,8 @@ export class SignInComponent {
 	public formCreate: FormGroup;
 
 	constructor(private router: Router,
-				private dialogRef: MatDialogRef<CreateTaskComponent>,
-				private builder: FormBuilder) {
+				private builder: FormBuilder,
+				private serverService: ServerService) {
 		this.formCreate = this.builder.group({
 			email: ['', Validators.compose([Validators.required, Validators.email])],
 			password: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(100)])],
@@ -22,7 +23,13 @@ export class SignInComponent {
 	}
 
 	onSubmit(form: any): void {
-		this.dialogRef.close(form.value);
+		this.serverService.login(this.formCreate.value.email, this.formCreate.value.password).subscribe((data) => {
+			if (!data.body.error) {
+				localStorage.userData = JSON.stringify(data.userData);
+				localStorage.authToken = data.token;
+				this.router.navigate(['/todos']);
+			}
+		});
 	}
 
 }

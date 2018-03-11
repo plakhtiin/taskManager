@@ -12,12 +12,14 @@ export class LoginGuardService implements CanActivate {
 	): Observable<boolean>|Promise<boolean>|boolean {
 		if (!this.authService.isLoggedIn()) {
 			this.router.navigate(['']);
+		} else {
+			this.router.navigate(['/todos']);
 		}
 		return true;
 	}
-	resolve(): void {
-		if (this.authService.isLoggedIn()) {
-			this.router.navigate(['/todos']);
-		}
-	}
+	// resolve(): void {
+	// 	if (this.authService.isLoggedIn()) {
+	// 		this.router.navigate(['/todos']);
+	// 	}
+	// }
 }

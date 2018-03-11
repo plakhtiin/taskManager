@@ -1,136 +1,142 @@
-import {MongoClient, ObjectID} from 'mongodb';
+import {Db, MongoClient, ObjectID, Server} from 'mongodb';
 import * as moment from 'moment';
 
-const DB_URL: string = 'mongodb://admin:root@ds261088.mlab.com:61088/taskmanager';
+const DB_URL: string = 'mongodb://localhost';
+const PORT: number = 27017;
+const DB_NAME: string = 'taskManager';
+let db: Db;
+const errorMsg: string = 'Incorrect password or email address code entered. Please try again.';
 
 export class DataBaseConnection {
-	_db: any;
 
 	connectToServer(callback) {
-		MongoClient.connect(DB_URL, (err, db) => {
-			if (db) {
-				this._db = db;
-				console.log('db connected');
-				return callback(db, null);
+		MongoClient.connect(DB_URL + ':' + PORT + '/' + DB_NAME, (err, client) => {
+			if (client) {
+				db = client.db(DB_NAME);
+				console.log('db connected', db);
+				return callback(client, null);
 			} else if (err) {
 				return callback(null, err);
 			}
 		});
 	}
-	getUsers(cb) {
-		this._db.collection('users').find({}, (err, result) => {
-			if (err) {
-				cb(err, null);
-			} else {
-				result.toArray((error, users) => {
-					cb(null, users);
-				});
-			}
-		});
-	}
-	getAdminUser(username, password, cb) {
-		this._db.collection('users').findOne({
-			username: username,
+
+	getUser(username, password, cb) {
+		db.collection('users').findOne({
+			email: username,
 			password: password
 		}, (err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				cb(null, result);
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}
 
 	getAdminUsers(cb) {
-		this._db.collection('users').find((err, result) => {
+		db.collection('users').find((err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				result.toArray((error, users) => {
 					cb(null, users);
 				});
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}
 
 	getUserById(userId, cb) {
-		this._db.collection('users').findOne({
+		db.collection('users').findOne({
 			_id: new ObjectID(userId)
 		}, (err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				cb(null, result);
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}
 
 	createUser(data, cb) {
-		this._db.collection('users').insertOne({
-			username: data.username,
-			firstName: data.firstName,
-			lastName: data.lastName,
-			role: data.role,
+		db.collection('users').insertOne({
+			username: data.username || '',
+			firstName: data.firstName || '',
+			lastName: data.lastName || '',
 			password: data.password,
 			email: data.email
-		}, (err, result) => {
+		}, null, (err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				cb(null, result);
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}
 
 	removeUser(data, cb) {
-		this._db.collection('users').remove({
+		db.collection('users').remove({
 			_id: new ObjectID(data._id)
 		}, {
-			justOne: true
+			single: true
 		}, (err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				cb(null, result);
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}
 
 	updateUser(data, cb) {
-		this._db.collection('users').update({
+		db.collection('users').update({
 			_id: new ObjectID(data._id)
 		}, {
 			$set: {
 				username: data.username,
 				firstName: data.firstName,
 				lastName: data.lastName,
-				role: data.role,
 				password: data.password,
 				email: data.email
 			}
 		}, (err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				cb(null, result);
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}
+
 	setToken(userId, token, cb) {
-		this._db.collection('tokens').insert({
+		db.collection('tokens').insert({
 			userId: userId.toString(),
 			token: token,
 			time: moment().add(1, 'day').format('hh:mm:ss DD/MM/YYYY')
 		}, (err, result) => {
 			if (err) {
 				cb(err, null);
-			} else {
+			} else if (result) {
 				const obj = {
 					id: userId.toString(),
 					token: token,
-					time: moment().add(1, 'day').format('hh:mm:ss DD/MM/YYYY')
+					time: moment().add(0.5, 'h').format('hh:mm:ss DD/MM/YYYY')
 				};
 				cb(null, obj);
+			} else {
+				cb(errorMsg, null);
 			}
 		});
 	}

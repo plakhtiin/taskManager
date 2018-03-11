@@ -8,7 +8,7 @@ export class LoginService {
 	}
 
 	getUser(username, password, cb) {
-		this.db.getAdminUser(username, password, (err, result) => {
+		this.db.getUser(username, password, (err, result) => {
 			if (err) {
 				cb(err, null);
 			} else {
@@ -37,7 +37,7 @@ export class LoginService {
 			} else if (!decoded.username || !decoded.password) {
 				cb(false);
 			} else {
-				this.db.getAdminUser(decoded.username, decoded.password, (error, result) => {
+				this.db.getUser(decoded.username, decoded.password, (error, result) => {
 					if (error) {
 						cb(false);
 					}

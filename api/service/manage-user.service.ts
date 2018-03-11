@@ -33,15 +33,6 @@ export class ManageUserService {
 			}
 		});
 	}
-	getUsers(cb) {
-		this.db.getUsers((err, result) => {
-			if (err) {
-				cb(err, null);
-			} else {
-				cb(null, result);
-			}
-		});
-	}
 	removeUser(user, cb) {
 		this.db.removeUser(user, (err, result) => {
 			if (err) {

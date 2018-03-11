@@ -1,8 +1,16 @@
-<div class="login-wrapper" *ngIf="!isLoggined()">
-	<button color="warn" mat-raised-button class="text-capitalize" (click)="onLoginClick()">
-		Sign In
-	</button>
-	<button color="accent" mat-raised-button class="text-capitalize" (click)="onRegisterClick()">
-		Sing Up
-	</button>
+<div class="row" *ngIf="!isLoggined()">
+	<div class="col-4 offset-4 text-center">
+		<mat-card>
+			<mat-card-content>
+				<mat-tab-group class="text-center">
+					<mat-tab label="Sign Up" class="text-center">
+						<sign-up></sign-up>
+					</mat-tab>
+					<mat-tab label="Sign In" class="text-center">
+						<sign-in></sign-in>
+					</mat-tab>
+				</mat-tab-group>
+			</mat-card-content>
+		</mat-card>
+	</div>
 </div>

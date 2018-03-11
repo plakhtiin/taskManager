@@ -2,6 +2,7 @@ import * as express from 'express';
 import {DataBaseConnection} from './db';
 import {LoginService} from './service/login.service';
 import {ManageUserService} from './service/manage-user.service';
+import * as bodyParser from 'body-parser';
 
 class Token {
 	private dataBaseConnection: DataBaseConnection = new DataBaseConnection();
@@ -9,7 +10,7 @@ class Token {
 	constructor() {}
 
 	setToken(userData, cb) {
-		this.dataBaseConnection.setToken(userData.id, userData.token, function (err, res) {
+		this.dataBaseConnection.setToken(userData.id, userData.token, (err, res) => {
 			if (err) {
 				cb(err, null);
 			} else if (res) {
@@ -19,7 +20,7 @@ class Token {
 	}
 }
 
-class App {
+export class App {
 	public express;
 	public tokenClass: Token = new Token();
 	private loginService: LoginService = new LoginService();
@@ -27,6 +28,7 @@ class App {
 
 	constructor() {
 		this.express = express();
+		this.express.use(bodyParser.json());
 		this.mountRoutes();
 	}
 
@@ -38,21 +40,21 @@ class App {
 			});
 		});
 		this.express.use('/', router);
-		router.get('/api/user/data/:userId/:token', function (req, res) {
+		router.get('/api/user/data/:userId/:token', (req, res) => {
 		});
-		router.post('/api/login', function (req, res) {
+		router.post('/api/login', (req, res) => {
 			this.loginService.getUser(req.body.username, req.body.password, (err, adminUser) => {
 				if (err) {
-					res.send(err);
+					res.send({error: err});
 				}
 				else {
 					this.tokenClass.setToken(adminUser, (error, result) => {
 						if (error) {
-							res.send(error);
+							res.send({error: error});
 						} else if (result) {
 							const obj = {
 								userData: adminUser,
-								result: result
+								token: result.token
 							};
 							res.send(obj);
 						}
@@ -60,7 +62,7 @@ class App {
 				}
 			});
 		});
-		router.get('/api/user/data/:userId/:token', function (req, res) {
+		router.get('/api/user/data/:userId/:token', (req, res) => {
 			this.loginService.isValidToken(req.params.token, (isValid: boolean) => {
 				if (isValid) {
 					this.manageUserService.getUserData(req.params.userId, (err, usersDays) => {
@@ -77,24 +79,7 @@ class App {
 				}
 			});
 		});
-		router.get('/api/users/data/:token', function (req, res) {
-			this.loginService.isValidToken(req.params.token, (isValid) => {
-				if (isValid) {
-					this.manageUserService.getUsers((err, users) => {
-						if (err) {
-							res.send(err);
-						}
-						else {
-							res.send(users);
-						}
-					});
-				}
-				else {
-					res.status(403).send('Error');
-				}
-			});
-		});
-		router.post('/api/updateuser/data/:token', function (req, res) {
+		router.post('/api/updateuser/data/:token', (req, res) => {
 			this.loginService.isValidToken(req.params.token, (isValid: boolean) => {
 				if (isValid) {
 					this.manageUserService.updateUser(req.body, (err, user) => {
@@ -111,24 +96,17 @@ class App {
 				}
 			});
 		});
-		router.post('/api/createuser/data/:token', function (req, res) {
-			this.loginService.isValidToken(req.params.token, (isValid: boolean) => {
-				if (isValid) {
-					this.manageUserService.createUser(req.body, (err, user) => {
-						if (err) {
-							res.send(err);
-						}
-						else {
-							res.send(user);
-						}
-					});
+		router.post('/api/createuser', (req, res) => {
+			this.manageUserService.createUser(req.body, (err, user) => {
+				if (err) {
+					res.send({error: err});
 				}
 				else {
-					res.status(403).send('Error');
+					res.send(user);
 				}
 			});
 		});
-		router.post('/api/removeuser/data/:token', function (req, res) {
+		router.post('/api/removeuser/data/:token', (req, res) => {
 			this.loginService.isValidToken(req.params.token, (isValid: boolean) => {
 				if (isValid) {
 					this.manageUserService.removeUser(req.body, (err, user) => {
@@ -147,5 +125,3 @@ class App {
 		});
 	}
 }
-
-export default new App().express;

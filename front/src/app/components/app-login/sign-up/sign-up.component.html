@@ -1,24 +1,28 @@
 <form [formGroup]="formCreate" (ngSubmit)="onSubmit(formCreate)">
-	<h1 mat-dialog-title>Add task</h1>
+	<p class="lead">SIGN UP</p>
 	<mat-dialog-content>
-
-		<mat-form-field>
-			<input matInput formControlName="email" type="email" placeholder="E-mail" required>
-			<mat-error *ngIf="errors">{{errors.email}}</mat-error>
-		</mat-form-field>
-		<mat-form-field>
-			<input matInput formControlName="password" type="password" placeholder="Password" required>
-			<mat-error *ngIf="errors">{{errors.password}}</mat-error>
-		</mat-form-field>
-
-		<mat-form-field>
-			<input matInput formControlName="repeatPassword" type="password" placeholder="Repeat password" required>
-			<mat-error *ngIf="errors">{{errors.repeatPassword}}</mat-error>
-		</mat-form-field>
-
+		<div class="form-group">
+			<mat-form-field>
+				<input matInput formControlName="email" type="email" placeholder="E-mail" required>
+				<mat-error *ngIf="errors">{{errors.email}}</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="form-group">
+			<mat-form-field>
+				<input matInput formControlName="password" type="password" placeholder="Password" required>
+				<mat-error *ngIf="errors">{{errors.password}}</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="form-group">
+			<mat-form-field>
+				<input matInput formControlName="repeatPassword" type="password" placeholder="Repeat password" required>
+				<mat-error *ngIf="errors">{{errors.repeatPassword}}</mat-error>
+			</mat-form-field>
+		</div>
 	</mat-dialog-content>
-	<mat-dialog-actions>
-		<button mat-button type="submit" color="primary">SIGN UP</button>
-		<button mat-button type="button" color="primary" mat-dialog-close>CANCEL</button>
-	</mat-dialog-actions>
+	<div class="form-group">
+		<mat-dialog-actions>
+			<button mat-button type="submit" color="primary" [disabled]="formCreate.invalid">SIGN UP</button>
+		</mat-dialog-actions>
+	</div>
 </form>

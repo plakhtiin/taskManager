@@ -17,9 +17,10 @@ import {
 	MatMenuModule,
 	MatNativeDateModule,
 	MatSelectModule,
-	MatSlideToggleModule,
+	MatSlideToggleModule, MatSnackBarModule,
 	MatSortModule,
 	MatTableModule,
+	MatTabsModule,
 	MatToolbarModule
 } from '@angular/material';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -35,6 +36,7 @@ import {SignUpComponent} from './components/app-login/sign-up/sign-up.component'
 import {SignInComponent} from './components/app-login/sign-in/sign-in.component';
 import {AuthService} from './services/auth.service';
 import {LoginGuardService} from './services/loginGuard.service';
+import {ServerService} from './services/server.service';
 
 @NgModule({
 	declarations: [
@@ -71,6 +73,8 @@ import {LoginGuardService} from './services/loginGuard.service';
 		BrowserAnimationsModule,
 		MatListModule,
 		MatMenuModule,
+		MatTabsModule,
+		MatSnackBarModule
 	],
 	exports: [
 		MatCardModule,
@@ -85,7 +89,9 @@ import {LoginGuardService} from './services/loginGuard.service';
 		MatSelectModule,
 		MatSlideToggleModule,
 		MatCheckboxModule,
-		MatDialogModule
+		MatDialogModule,
+		MatTabsModule,
+		MatSnackBarModule
 	],
 	providers: [
 		TodoService,
@@ -94,7 +100,8 @@ import {LoginGuardService} from './services/loginGuard.service';
 			useValue: false
 		},
 		AuthService,
-		LoginGuardService
+		LoginGuardService,
+		ServerService
 	],
 	bootstrap: [AppComponent],
 	entryComponents: [
