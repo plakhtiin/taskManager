@@ -3,20 +3,22 @@
 	"version": "1.0.0",
 	"description": "",
 	"dependencies": {
-		"@types/body-parser": "^1.16.8",
-		"@types/mongodb": "^3.0.7",
 		"@angular/compiler": "5.x.x",
 		"@angular/core": "5.x.x",
+		"@types/body-parser": "^1.16.8",
+		"@types/cors": "^2.8.3",
+		"@types/mongodb": "^3.0.7",
+		"@types/node": "7.0.22",
 		"async": "latest",
 		"body-parser": "latest",
+		"cors": "^2.8.3",
 		"express": "latest",
 		"jsonwebtoken": "latest",
 		"moment": "^2.18.1",
 		"mongodb": "latest",
 		"node-schedule": "latest",
-		"socket.io": "latest",
 		"rxjs": "^5.4.2",
-		"@types/node": "7.0.22"
+		"socket.io": "latest"
 	},
 	"devDependencies": {
 		"@types/mocha": "2.2.41",

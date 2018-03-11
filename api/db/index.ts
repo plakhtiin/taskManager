@@ -1,5 +1,6 @@
 import {Db, MongoClient, ObjectID, Server} from 'mongodb';
 import * as moment from 'moment';
+import {Task} from '../classes/task';
 
 const DB_URL: string = 'mongodb://localhost';
 const PORT: number = 27017;
@@ -30,20 +31,6 @@ export class DataBaseConnection {
 				cb(err, null);
 			} else if (result) {
 				cb(null, result);
-			} else {
-				cb(errorMsg, null);
-			}
-		});
-	}
-
-	getAdminUsers(cb) {
-		db.collection('users').find((err, result) => {
-			if (err) {
-				cb(err, null);
-			} else if (result) {
-				result.toArray((error, users) => {
-					cb(null, users);
-				});
 			} else {
 				cb(errorMsg, null);
 			}
@@ -140,4 +127,54 @@ export class DataBaseConnection {
 			}
 		});
 	}
+
+	getTasks(userId: string, cb): void {
+		db.collection('tasks').find({userId: userId}).toArray(cb);
+	}
+
+	createTask(data: Task, cb) {
+		db.collection('tasks').insertOne(data, null, (err, result) => {
+			if (err) {
+				cb(err, null);
+			} else if (result) {
+				cb(null, result);
+			} else {
+				cb(errorMsg, null);
+			}
+		});
+	}
+
+	removeTask(data, cb) {
+		db.collection('tasks').findOneAndDelete({
+			_id: new ObjectID(data._id)
+		}, (err, result) => {
+			if (err) {
+				cb(err, null);
+			} else if (result) {
+				cb(null, result);
+			} else {
+				cb(errorMsg, null);
+			}
+		});
+	}
+
+	updateTask(data: Task, cb) {
+		const ID: string = data._id;
+		const taskObj: any = data;
+		delete taskObj._id;
+		console.log(data._id);
+		console.log(ID);
+		db.collection('tasks').update({
+			_id: new ObjectID(ID)
+		},  taskObj, (err, result) => {
+			if (err) {
+				cb(err, null);
+			} else if (result) {
+				cb(null, result);
+			} else {
+				cb(errorMsg, null);
+			}
+		});
+	}
+
 }

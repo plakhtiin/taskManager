@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
+import {TransferHttpCacheModule} from '@nguniversal/common';
 import {
 	MatButtonModule,
 	MatCardModule,
@@ -17,7 +17,8 @@ import {
 	MatMenuModule,
 	MatNativeDateModule,
 	MatSelectModule,
-	MatSlideToggleModule, MatSnackBarModule,
+	MatSlideToggleModule,
+	MatSnackBarModule,
 	MatSortModule,
 	MatTableModule,
 	MatTabsModule,
@@ -56,7 +57,7 @@ import {ServerService} from './services/server.service';
 		AppRoutingModule,
 		ReactiveFormsModule,
 		HttpClientModule,
-		HttpModule,
+		TransferHttpCacheModule,
 		MatCardModule,
 		MatToolbarModule,
 		MatButtonModule,

@@ -1,4 +1,4 @@
-import { AbstractControl, FormArray, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {AbstractControl, FormArray, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
 export class CustomAccountsValidators extends Validators {
 	static matchPasswordValidator(newPassword: string, confirmPassword: string): ValidatorFn {
@@ -6,7 +6,7 @@ export class CustomAccountsValidators extends Validators {
 			const newPw: AbstractControl = AC.get(newPassword);
 			const confirmPw: AbstractControl = AC.get(confirmPassword);
 			if (newPw.value !== confirmPw.value) {
-				confirmPw.setErrors({ matchPassword: true });
+				confirmPw.setErrors({matchPassword: true});
 			} else {
 				if (confirmPw.hasError('matchPassword') && confirmPw.errors !== null) {
 					delete confirmPw.errors['matchPassword'];
@@ -18,6 +18,7 @@ export class CustomAccountsValidators extends Validators {
 			}
 		};
 	}
+
 	static notEqualTo(controlTo: string): ValidatorFn {
 		return (control: AbstractControl): ValidationErrors | null => {
 			const r: FormGroup | FormArray = control.parent;
@@ -25,7 +26,7 @@ export class CustomAccountsValidators extends Validators {
 				return;
 			}
 			if (r && r.controls[controlTo].value === control.value) {
-				return { notEqual: true };
+				return {notEqual: true};
 			} else {
 				if (r.controls[controlTo].hasError('notEqual')) {
 					delete r.controls[controlTo].errors['notEqual'];
@@ -42,6 +43,7 @@ export class CustomAccountsValidators extends Validators {
 			}
 		};
 	}
+
 	constructor(validators: Validators) {
 		super();
 	}

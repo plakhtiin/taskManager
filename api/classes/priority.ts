@@ -3,7 +3,6 @@ const PRIORITIES: Array<string> = [
 	'Middle',
 	'Low'
 ];
-
 export class Priority {
 	id: number;
 	name: string;

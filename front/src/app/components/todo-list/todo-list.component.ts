@@ -7,6 +7,7 @@ import {Task} from '../../classes/task';
 import {EditTaskComponent} from '../edit-task/edit-task.component';
 import {Priority} from '../../classes/priority';
 import {CreateTaskComponent} from '../create-task/create-task.component';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
 	selector: 'app-todo-list',
@@ -18,6 +19,7 @@ export class TodoListComponent implements OnInit {
 	form: FormGroup;
 	editTaskDialogRef: MatDialogRef<EditTaskComponent>;
 	createTaskDialogRef: MatDialogRef<CreateTaskComponent>;
+	tasks: Task[];
 
 	PRIORITIES = [
 		'High',
@@ -27,49 +29,69 @@ export class TodoListComponent implements OnInit {
 
 	constructor(private todoService: TodoService,
 				public editDialog: MatDialog,
+				public snackBar: MatSnackBar,
 				public createDialog: MatDialog) {
 	}
 
 	ngOnInit(): void {
 		this.createForm();
+		this.getAllTasks();
 	}
 
 	public addTask(values: any): void {
-		this.todoService.addTask(values, values.priorityId);
+		this.todoService.addTask(values, values.priorityId).subscribe((data) => {
+			if (data.body.error) {
+				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+			}
+			if (!data.body.error) {
+				this.getAllTasks();
+			}
+		});
 		this.form.reset();
 	}
 
 	public updateTask(task: Task): void {
 		task.priority = new Priority(task.priority.id);
-		this.todoService.updateTaskById(task.id, task);
+		this.todoService.updateTaskById(task).subscribe((data) => {
+			if (data.body.error) {
+				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+			}
+			if (!data.body.error) {
+				this.getAllTasks();
+			}
+		});
 	}
 
 	public deleteTask(task: Task): void {
-		this.todoService.deleteTaskById(task.id);
+		this.todoService.deleteTaskById(task._id).subscribe((data) => {
+			if (data.body.error) {
+				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+			}
+			if (!data.body.error) {
+				this.snackBar.open('Task was successfully removed', '', {duration: 1000});
+				this.getAllTasks();
+			}
+		});
 	}
 
 	public completeTask(task: Task): void {
-		this.todoService.completeTaskById(task.id);
+		this.todoService.completeTaskById(task);
 	}
 
 	public sortTasksByName(): void {
-		this.todoService.sortTasksByName();
+		this.tasks = this.todoService.sortTasksByName(this.tasks);
 	}
 
 	public sortTasksByDate(): void {
-		this.todoService.sortTasksByDate();
+		this.tasks = this.todoService.sortTasksByDate(this.tasks);
 	}
 
 	public sortTasksByPriority(): void {
-		this.todoService.sortTasksByPriority();
+		this.tasks = this.todoService.sortTasksByPriority(this.tasks);
 	}
 
 	public sortTasksByCompleted(): void {
-		this.todoService.sortTasksByCompleted();
-	}
-
-	get tasks(): Array<Task> {
-		return this.todoService.getTasks();
+		this.tasks = this.todoService.sortTasksByCompleted(this.tasks);
 	}
 
 	private createForm(): void {
@@ -84,15 +106,7 @@ export class TodoListComponent implements OnInit {
 	openEditTaskDialog(task: Task): void {
 		this.editTaskDialogRef = this.editDialog.open(EditTaskComponent, {
 			width: '400px',
-			data: {
-				id: task ? task.id : '',
-				name: task ? task.name : '',
-				startDate: task ? task.startDate : '',
-				finishDate: task ? task.finishDate : '',
-				description: task ? task.description : '',
-				priority: task ? task.priority : '',
-				completed: task ? task.completed : '',
-			}
+			data: task
 		});
 
 		this.editTaskDialogRef.afterClosed()
@@ -112,6 +126,16 @@ export class TodoListComponent implements OnInit {
 			.subscribe(values => {
 				this.addTask(values);
 			});
+	}
+	getAllTasks(): void {
+		this.todoService.getTasks().subscribe((data) => {
+			if (data.body.error) {
+				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+			}
+			if (!data.body.error) {
+				this.tasks = data.body.tasks;
+			}
+		});
 	}
 
 }

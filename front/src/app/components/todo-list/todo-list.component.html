@@ -1,86 +1,86 @@
 <a mat-fab class="add-task" (click)="openCreateTaskDialog()">
-  <mat-icon>add</mat-icon>
+	<mat-icon>add</mat-icon>
 </a>
 <mat-card class="content-box">
 
-  <div class="flex-row filter-form" [formGroup]="form">
-    <div class="flex-col">
-      <mat-form-field class="filter-field">
-        <input type="text" matInput formControlName="name" placeholder="Title">
-      </mat-form-field>
-    </div>
-    <div class="flex-col">
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class="flex-col">
-      <mat-form-field>
-        <mat-select placeholder="Select priority" formControlName="priority">
-          <mat-option></mat-option>
-          <mat-option *ngFor="let priorityName of PRIORITYS; let i = index" [value]="i+1">
-            {{priorityName}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="flex-col">
-      <mat-form-field>
-        <mat-select placeholder="Select status" formControlName="completed">
-          <mat-option></mat-option>
-          <mat-option [value]="true">
-            Completed
-          </mat-option>
-          <mat-option [value]="false">
-            In progress
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="flex-col"></div>
-  </div>
+	<div class="flex-row filter-form" [formGroup]="form">
+		<div class="flex-col">
+			<mat-form-field class="filter-field">
+				<input type="text" matInput formControlName="name" placeholder="Title">
+			</mat-form-field>
+		</div>
+		<div class="flex-col">
+			<mat-form-field>
+				<input matInput [matDatepicker]="picker" formControlName="date" placeholder="Choose a date">
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+		</div>
+		<div class="flex-col">
+			<mat-form-field>
+				<mat-select placeholder="Select priority" formControlName="priority">
+					<mat-option></mat-option>
+					<mat-option *ngFor="let priorityName of PRIORITIES; let i = index" [value]="i+1">
+						{{priorityName}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div class="flex-col">
+			<mat-form-field>
+				<mat-select placeholder="Select status" formControlName="completed">
+					<mat-option></mat-option>
+					<mat-option [value]="true">
+						Completed
+					</mat-option>
+					<mat-option [value]="false">
+						In progress
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div class="flex-col"></div>
+	</div>
 
-  <div class="flex-row header-row"> 
-    <div class="flex-col">
-      <button mat-button class="col-header" (click)="sortTasksByName()"> Title </button>
-    </div>
-    <div class="flex-col">
-      <button mat-button class="col-header" (click)="sortTasksByDate()"> Date </button>
-    </div>
-    <div class="flex-col">
-      <button mat-button class="col-header" (click)="sortTasksByPriority()"> Priority </button>
-    </div>
-    <div class="flex-col">
-      <button mat-button class="col-header" (click)="sortTasksByCompleted()"> Status </button>
-    </div>
-    <div class="flex-col"></div>
-  </div>
+	<div class="flex-row header-row">
+		<div class="flex-col">
+			<button mat-button class="col-header" (click)="sortTasksByName()"> Title</button>
+		</div>
+		<div class="flex-col">
+			<button mat-button class="col-header" (click)="sortTasksByDate()"> Date</button>
+		</div>
+		<div class="flex-col">
+			<button mat-button class="col-header" (click)="sortTasksByPriority()"> Priority</button>
+		</div>
+		<div class="flex-col">
+			<button mat-button class="col-header" (click)="sortTasksByCompleted()"> Status</button>
+		</div>
+		<div class="flex-col"></div>
+	</div>
 
-  <div class="flex-row" *ngFor="let task of tasks | filter: form.value">
-    <div class="flex-col"><p> {{task.name}} </p></div>
-    <div class="flex-col"><p> {{task.startDate | date: 'dd-MM-yyyy'}} </p></div>
-    <div class="flex-col"><p> {{task.priority.name}} </p></div>
-    <div class="flex-col">
-      <p *ngIf="task.completed; else uncompleted">Completed</p>
-      <ng-template #uncompleted>
-        <p class="item-col">In progress</p>
-      </ng-template>
-    </div>
-    <div class="flex-col">
-      <mat-checkbox (click)="completeTask(task)" [checked]="task.completed"></mat-checkbox>
-      <button mat-icon-button (click)="openEditTaskDialog(task)">
-        <mat-icon aria-label="Edit task">
-          mode_edit
-        </mat-icon>
-      </button>
-      <a mat-icon-button>
-        <mat-icon aria-label="Delete task" (click)="deleteTask(task)">
-          delete
-        </mat-icon>
-      </a>
-    </div>
-  </div>
+	<div class="flex-row" *ngFor="let task of tasks | filter: form.value">
+		<div class="flex-col"><p> {{task.name}} </p></div>
+		<div class="flex-col"><p> {{task.startDate | date: 'dd-MM-yyyy'}} </p></div>
+		<div class="flex-col"><p> {{PRIORITIES[task.priorityId]}}</p></div>
+		<div class="flex-col">
+			<p *ngIf="task.completed; else uncompleted">Completed</p>
+			<ng-template #uncompleted>
+				<p class="item-col">In progress</p>
+			</ng-template>
+		</div>
+		<div class="flex-col">
+			<mat-checkbox (click)="completeTask(task)" [checked]="task.completed"></mat-checkbox>
+			<button mat-icon-button (click)="openEditTaskDialog(task)">
+				<mat-icon aria-label="Edit task">
+					mode_edit
+				</mat-icon>
+			</button>
+			<a mat-icon-button>
+				<mat-icon aria-label="Delete task" (click)="deleteTask(task)">
+					delete
+				</mat-icon>
+			</a>
+		</div>
+	</div>
 
 </mat-card>

@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ServerService} from '../../../services/server.service';
 import {MatSnackBar} from '@angular/material';
+
 const durationSnackBar: number = 1000;
 
 @Component({
@@ -15,7 +16,8 @@ export class SignInComponent {
 
 	constructor(private router: Router,
 				private builder: FormBuilder,
-				private serverService: ServerService) {
+				private serverService: ServerService,
+				public snackBar: MatSnackBar) {
 		this.formCreate = this.builder.group({
 			email: ['', Validators.compose([Validators.required, Validators.email])],
 			password: ['', Validators.compose([Validators.minLength(6), Validators.maxLength(100)])],
@@ -28,6 +30,9 @@ export class SignInComponent {
 				localStorage.userData = JSON.stringify(data.body.userData);
 				localStorage.authToken = data.body.token;
 				this.router.navigate(['/todos']);
+			}
+			if (data.body.error) {
+				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: durationSnackBar});
 			}
 		});
 	}

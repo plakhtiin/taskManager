@@ -19,9 +19,10 @@ export class AppComponent {
 			this.router.navigate(['/login']);
 		}
 	}
+
 	logout(): void {
 		localStorage.removeItem('userData');
-		localStorage.removeItem( 'authToken');
+		localStorage.removeItem('authToken');
 		this.router.navigate(['/login']);
 	}
 }

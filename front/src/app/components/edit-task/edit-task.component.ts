@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 import {TodoService} from '../../services/todo.service';
-import {Task} from '../../classes/task';
 
 @Component({
 	selector: 'app-edit-task',
@@ -37,7 +36,12 @@ export class EditTaskComponent implements OnInit {
 	}
 
 	onSubmit(form: any): void {
-		this.dialogRef.close(new Task(this.data.id, form.value, form.value.priorityId));
+		this.data.name = form.value.name;
+		this.data.startDate = form.value.startDate;
+		this.data.finishDate = form.value.finishDate;
+		this.data.description = form.value.description;
+		this.data.priority.id = form.value.id;
+		this.dialogRef.close(this.data);
 	}
 
 

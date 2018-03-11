@@ -20,6 +20,7 @@ export class SignUpComponent {
 				public snackBar: MatSnackBar) {
 		this.initForm();
 	}
+
 	initForm(): void {
 		this.formCreate = this.builder.group({
 				email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -34,8 +35,13 @@ export class SignUpComponent {
 	onSubmit(form: any): void {
 		if (this.formCreate.value.password === this.formCreate.value.repeatPassword) {
 			this.serverService.signUp(this.formCreate.value.email, this.formCreate.value.password).subscribe((data) => {
-				this.snackBar.open('Welcome! You are registered!', '', { duration: 500 });
-				this.initForm();
+				if (data.body.error) {
+					this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+				}
+				if (!data.body.error) {
+					this.snackBar.open('Welcome! You are registered!', '', {duration: 500});
+					this.initForm();
+				}
 			});
 		}
 	}
