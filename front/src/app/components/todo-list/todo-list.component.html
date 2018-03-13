@@ -69,7 +69,7 @@
 			</ng-template>
 		</div>
 		<div class="flex-col">
-			<mat-checkbox (click)="completeTask(task)" [checked]="task.completed"></mat-checkbox>
+			<mat-checkbox (change)="completeTask(task)" [checked]="task.completed"></mat-checkbox>
 			<button mat-icon-button (click)="openEditTaskDialog(task)">
 				<mat-icon aria-label="Edit task">
 					mode_edit

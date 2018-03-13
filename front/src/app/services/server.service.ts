@@ -26,6 +26,11 @@ export class ServerService {
 		const sub: Observable<any> = this.http.post(this.path + '/api/login', params, {observe: 'response'});
 		return sub;
 	}
+	logout(): Observable<any> {
+		const authToken: string = localStorage.getItem('authToken');
+		const sub: Observable<any> = this.http.get(this.path + '/api/logout/' + authToken, {observe: 'response'});
+		return sub;
+	}
 
 	signUp(email: string, pass: string): Observable<any> {
 		const params: object = {

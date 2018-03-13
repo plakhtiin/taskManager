@@ -111,7 +111,7 @@ export class DataBaseConnection {
 		db.collection('tokens').insert({
 			userId: userId.toString(),
 			token: token,
-			time: moment().add(1, 'day').format('hh:mm:ss DD/MM/YYYY')
+			time: moment().add(0.5, 'h').format('HH:mm:ss DD/MM/YYYY')
 		}, (err, result) => {
 			if (err) {
 				cb(err, null);
@@ -119,9 +119,37 @@ export class DataBaseConnection {
 				const obj = {
 					id: userId.toString(),
 					token: token,
-					time: moment().add(0.5, 'h').format('hh:mm:ss DD/MM/YYYY')
+					time: moment().add(0.5, 'h').format('HH:mm:ss DD/MM/YYYY')
 				};
 				cb(null, obj);
+			} else {
+				cb(errorMsg, null);
+			}
+		});
+	}
+	findToken(token: string, cb) {
+		db.collection('tokens').findOne({
+			token: token
+		}, (err, result) => {
+			if (err) {
+				cb(err, null);
+			} else if (result) {
+				cb(null, result);
+			} else {
+				cb(errorMsg, null);
+			}
+		});
+	}
+	removeToken(token: string, cb) {
+		console.log('removeToken db')
+		db.collection('tokens').remove({
+			token: token
+		}, (err, result) => {
+			console.log('removedToken db 111')
+			if (err) {
+				cb(err, null);
+			} else if (result) {
+				cb(null, result);
 			} else {
 				cb(errorMsg, null);
 			}

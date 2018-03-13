@@ -8,6 +8,7 @@ import {EditTaskComponent} from '../edit-task/edit-task.component';
 import {Priority} from '../../classes/priority';
 import {CreateTaskComponent} from '../create-task/create-task.component';
 import {MatSnackBar} from '@angular/material';
+import {LoginGuardService} from '../../services/loginGuard.service';
 
 @Component({
 	selector: 'app-todo-list',
@@ -29,6 +30,7 @@ export class TodoListComponent implements OnInit {
 
 	constructor(private todoService: TodoService,
 				public editDialog: MatDialog,
+				public loginService: LoginGuardService,
 				public snackBar: MatSnackBar,
 				public createDialog: MatDialog) {
 	}
@@ -40,42 +42,70 @@ export class TodoListComponent implements OnInit {
 
 	public addTask(values: any): void {
 		this.todoService.addTask(values, values.priorityId).subscribe((data) => {
-			if (data.body.error) {
-				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
-			}
-			if (!data.body.error) {
-				this.getAllTasks();
-			}
-		});
+				if (data.body.error) {
+					this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+				}
+				if (!data.body.error) {
+					this.getAllTasks();
+				}
+			},
+			(error) => {
+				if (error.status === 403) {
+					this.loginService.logout();
+				}
+			});
 		this.form.reset();
 	}
 
 	public updateTask(task: Task): void {
 		task.priority = new Priority(task.priority.id);
 		this.todoService.updateTaskById(task).subscribe((data) => {
-			if (data.body.error) {
-				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
-			}
-			if (!data.body.error) {
-				this.getAllTasks();
-			}
-		});
+				if (data.body.error) {
+					this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+				}
+				if (!data.body.error) {
+					this.getAllTasks();
+				}
+			},
+			(error) => {
+				if (error.status === 403) {
+					this.loginService.logout();
+				}
+			});
 	}
 
 	public deleteTask(task: Task): void {
 		this.todoService.deleteTaskById(task._id).subscribe((data) => {
-			if (data.body.error) {
-				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
-			}
-			if (!data.body.error) {
-				this.snackBar.open('Task was successfully removed', '', {duration: 1000});
-				this.getAllTasks();
-			}
-		});
+				if (data.body.error) {
+					this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+				}
+				if (!data.body.error) {
+					this.snackBar.open('Task was successfully removed', '', {duration: 1000});
+					this.getAllTasks();
+				}
+			},
+			(error) => {
+				if (error.status === 403) {
+					this.loginService.logout();
+				}
+			});
 	}
 
 	public completeTask(task: Task): void {
-		this.todoService.completeTaskById(task);
+		this.todoService.completeTaskById(task).subscribe((data) => {
+				if (data.body.error) {
+					this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+				}
+				if (!data.body.error) {
+					this.snackBar.open('Task was successfully completed', '', {duration: 1000});
+					this.getAllTasks();
+				}
+			},
+			(error) => {
+				if (error.status === 403) {
+					this.loginService.logout();
+				}
+			});
 	}
 
 	public sortTasksByName(): void {
@@ -127,15 +157,21 @@ export class TodoListComponent implements OnInit {
 				this.addTask(values);
 			});
 	}
+
 	getAllTasks(): void {
 		this.todoService.getTasks().subscribe((data) => {
-			if (data.body.error) {
-				this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
-			}
-			if (!data.body.error) {
-				this.tasks = data.body.tasks;
-			}
-		});
+				if (data.body.error) {
+					this.snackBar.open(typeof data.body.error === 'string' ? data.body.error : data.body.error.message, '', {duration: 1500});
+				}
+				if (!data.body.error) {
+					this.tasks = data.body.tasks;
+				}
+			},
+			(error) => {
+				if (error.status === 403) {
+					this.loginService.logout();
+				}
+			});
 	}
 
 }

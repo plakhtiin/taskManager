@@ -9,13 +9,16 @@ const durationSnackBar: number = 1000;
 @Injectable()
 export class TodoService {
 
-	private userId: string = JSON.parse(localStorage.userData)._id;
+	private userId: string = localStorage.userData && JSON.parse(localStorage.userData)._id;
 
 	constructor(private serverService: ServerService,
 				public snackBar: MatSnackBar) {
 	}
 
-	public addTask(values: Object, priority: number): Observable<any>{
+	public addTask(values: Object, priority: number): Observable<any> {
+		if (!this.userId) {
+			this.userId = localStorage.userData && JSON.parse(localStorage.userData)._id;
+		}
 		const task: Task = new Task(this.userId, values, priority);
 		return this.serverService.addTask(task);
 	}
@@ -36,9 +39,9 @@ export class TodoService {
 		return this.serverService.updateTask(updTask);
 	}
 
-	public completeTaskById(task: Task): void {
+	public completeTaskById(task: Task): Observable<any> {
 		task.completed = !task.completed;
-		this.updateTaskById(task);
+		return this.updateTaskById(task);
 	}
 
 	public sortTasksByName(tasks: Task[]): Task[] {

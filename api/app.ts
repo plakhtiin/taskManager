@@ -20,6 +20,15 @@ class Token {
 			}
 		});
 	}
+	removeToken(userData, cb) {
+		this.dataBaseConnection.removeToken(userData.token, (err, res) => {
+			if (err) {
+				cb(err, null);
+			} else if (res) {
+				cb(null, res);
+			}
+		});
+	}
 }
 
 export class App {
@@ -88,6 +97,15 @@ export class App {
 				}
 			});
 		});
+		router.get('/api/logout/:token', (req, res) => {
+			this.tokenClass.removeToken(req.params.token, (error, result) => {
+				if (error) {
+					res.send({error: error});
+				} else if (result) {
+					res.send(result);
+				}
+			});
+		});
 		router.get('/api/user/data/:userId/:token', (req, res) => {
 			this.loginService.isValidToken(req.params.token, (isValid: boolean) => {
 				if (isValid) {
@@ -101,6 +119,7 @@ export class App {
 					});
 				}
 				else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});
@@ -118,6 +137,7 @@ export class App {
 					});
 				}
 				else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});
@@ -145,6 +165,7 @@ export class App {
 					});
 				}
 				else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});
@@ -162,6 +183,7 @@ export class App {
 						}
 					});
 				} else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});
@@ -178,6 +200,7 @@ export class App {
 						}
 					});
 				} else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});
@@ -194,6 +217,7 @@ export class App {
 						}
 					});
 				} else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});
@@ -210,6 +234,7 @@ export class App {
 						}
 					});
 				} else {
+					this.tokenClass.removeToken(req.params.token, (error, result) => {});
 					res.status(403).send('Error');
 				}
 			});

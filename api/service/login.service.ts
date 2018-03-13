@@ -1,5 +1,6 @@
 import {DataBaseConnection} from '../db';
 import * as jsonwebtoken from 'jsonwebtoken';
+import * as moment from 'moment';
 
 export class LoginService {
 	db: DataBaseConnection = new DataBaseConnection();
@@ -42,7 +43,14 @@ export class LoginService {
 						cb(false);
 					}
 					if (result) {
-						cb(true);
+						this.db.findToken(token, (errorToken, resultToken) => {
+							if (errorToken) {
+								cb(false);
+							} else if (resultToken) {
+								const isValid: boolean = moment(resultToken.time, 'HH:mm:ss DD/MM/YYYY').isAfter(moment().format());
+								cb(isValid);
+							}
+						});
 					}
 				});
 			}
